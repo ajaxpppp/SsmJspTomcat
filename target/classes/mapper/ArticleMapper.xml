@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.study.ssm.mapper.ArticleMapper">
+    
+    <!-- 商品结果映射 -->
+    <resultMap id="ArticleMap" type="Article">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    
+    <!-- 根据ID查询商品信息 -->
+    <select id="selectArticleById" parameterType="Integer" resultMap="ArticleMap">
+        SELECT id, name, price, remark
+        FROM tb_article
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询所有商品 -->
+    <select id="selectAllArticles" resultMap="ArticleMap">
+        SELECT id, name, price, remark
+        FROM tb_article
+    </select>
+    
+    <!-- 根据订单ID查询商品列表 -->
+    <select id="selectArticlesByOrderId" parameterType="Integer" resultMap="ArticleMap">
+        SELECT a.id, a.name, a.price, a.remark
+        FROM tb_article a
+        INNER JOIN tb_item i ON a.id = i.article_id
+        WHERE i.order_id = #{orderId}
+    </select>
+    
+    <!-- 插入商品 -->
+    <insert id="insertArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_article (name, price, remark)
+        VALUES (#{name}, #{price}, #{remark})
+    </insert>
+    
+    <!-- 更新商品 -->
+    <update id="updateArticle" parameterType="Article">
+        UPDATE tb_article
+        SET name = #{name},
+            price = #{price},
+            remark = #{remark}
+        WHERE id = #{id}
+    </update>
+    
+    <!-- 删除商品 -->
+    <delete id="deleteArticle" parameterType="Integer">
+        DELETE FROM tb_article
+        WHERE id = #{id}
+    </delete>
+    
+</mapper>

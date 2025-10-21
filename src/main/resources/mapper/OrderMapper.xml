@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.study.ssm.mapper.OrderMapper">
+    
+    <!-- 公共列片段：订单表所有基础列 -->
+    <sql id="Order_Columns">
+        id, code, total, user_id
+    </sql>
+    
+    <!-- 订单结果映射（基础） -->
+    <resultMap id="BaseOrderMap" type="Order">
+        <id column="id" property="id"/>
+        <result column="code" property="code"/>
+        <result column="total" property="total"/>
+        <result column="user_id" property="userId"/>
+    </resultMap>
+    
+    <!-- 订单结果映射（包含用户信息，懒加载） -->
+    <resultMap id="OrderWithUserMap" type="Order" extends="BaseOrderMap">
+        <association property="user" 
+                     javaType="User"
+                     select="com.study.ssm.mapper.UserMapper.selectUserById"
+                     column="user_id"
+                     fetchType="lazy"/>
+    </resultMap>
+    
+    <!-- 订单结果映射（包含商品信息，懒加载） -->
+    <resultMap id="OrderWithItemsMap" type="Order" extends="BaseOrderMap">
+        <collection property="items" 
+                    ofType="Item"
+                    select="com.study.ssm.mapper.ItemMapper.selectItemsWithArticleByOrderId"
+                    column="id"
+                    fetchType="lazy"/>
+    </resultMap>
+    
+    <!-- 订单结果映射（包含用户和商品信息，懒加载） -->
+    <resultMap id="OrderWithUserAndItemsMap" type="Order" extends="BaseOrderMap">
+        <association property="user" 
+                     javaType="User"
+                     select="com.study.ssm.mapper.UserMapper.selectUserById"
+                     column="user_id"
+                     fetchType="lazy"/>
+        <collection property="items" 
+                    ofType="Item"
+                    select="com.study.ssm.mapper.ItemMapper.selectItemsWithArticleByOrderId"
+                    column="id"
+                    fetchType="lazy"/>
+    </resultMap>
+    
+    <!-- 根据ID查询订单信息 -->
+    <select id="selectOrderById" parameterType="Integer" resultMap="BaseOrderMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询订单信息，同时懒加载用户信息 -->
+    <select id="selectOrderWithUser" parameterType="Integer" resultMap="OrderWithUserMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询订单信息，同时懒加载商品信息 -->
+    <select id="selectOrderWithItems" parameterType="Integer" resultMap="OrderWithItemsMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询订单信息，同时懒加载用户和商品信息 -->
+    <select id="selectOrderWithUserAndItems" parameterType="Integer" resultMap="OrderWithUserAndItemsMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+        WHERE id = #{id}
+    </select>
+    
+    <!-- 查询所有订单 -->
+    <select id="selectAllOrders" resultMap="BaseOrderMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+    </select>
+    
+    <!-- 查询所有订单，同时懒加载用户和商品信息 -->
+    <select id="selectAllOrdersWithDetails" resultMap="OrderWithUserAndItemsMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+    </select>
+    
+    <!-- 根据用户ID查询订单 -->
+    <select id="selectOrdersByUserId" parameterType="Integer" resultMap="BaseOrderMap">
+        SELECT <include refid="Order_Columns"/>
+        FROM tb_order
+        WHERE user_id = #{userId}
+    </select>
+    
+    <!-- 插入订单 -->
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_order (code, total, user_id)
+        VALUES (#{code}, #{total}, #{userId})
+    </insert>
+    
+    <!-- 更新订单 -->
+    <update id="updateOrder" parameterType="Order">
+        UPDATE tb_order
+        SET code = #{code},
+            total = #{total},
+            user_id = #{userId}
+        WHERE id = #{id}
+    </update>
+    
+    <!-- 删除订单 -->
+    <delete id="deleteOrder" parameterType="Integer">
+        DELETE FROM tb_order
+        WHERE id = #{id}
+    </delete>
+    
+</mapper>

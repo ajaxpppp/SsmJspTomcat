@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.ssm.mapper.ClazzMapper">
+
+    <!-- 公共列片段：班级与学生关联查询列清单 -->
+    <sql id="Clazz_With_Students_Columns">
+        c.id AS c_id,
+        c.code AS c_code,
+        c.name AS c_name,
+        s.id AS s_id,
+        s.name AS s_name,
+        s.sex AS s_sex,
+        s.age AS s_age,
+        s.clazz_id AS s_clazz_id
+    </sql>
+
+    <!-- 班级结果映射（包含学生列表） -->
+    <resultMap id="ClazzWithStudentsResultMap" type="Clazz">
+        <id property="id" column="c_id"/>
+        <result property="code" column="c_code"/>
+        <result property="name" column="c_name"/>
+        
+        <!-- 关联学生列表 -->
+        <collection property="students" ofType="Student">
+            <id property="id" column="s_id"/>
+            <result property="name" column="s_name"/>
+            <result property="sex" column="s_sex"/>
+            <result property="age" column="s_age"/>
+            <result property="clazzId" column="s_clazz_id"/>
+        </collection>
+    </resultMap>
+
+    <!-- 根据ID查询班级信息（包含学生列表） -->
+    <select id="selectClazzWithStudentsById" resultMap="ClazzWithStudentsResultMap">
+        SELECT 
+            <include refid="Clazz_With_Students_Columns"/>
+        FROM tb_clazz c
+        LEFT JOIN tb_student s ON c.id = s.clazz_id
+        WHERE c.id = #{id}
+        ORDER BY s.id
+    </select>
+
+    <!-- 查询所有班级信息（包含学生列表） -->
+    <select id="selectAllClazzWithStudents" resultMap="ClazzWithStudentsResultMap">
+        SELECT 
+            <include refid="Clazz_With_Students_Columns"/>
+        FROM tb_clazz c
+        LEFT JOIN tb_student s ON c.id = s.clazz_id
+        ORDER BY c.id, s.id
+    </select>
+
+    <!-- 根据班级编码查询班级信息（包含学生列表） -->
+    <select id="selectClazzWithStudentsByCode" resultMap="ClazzWithStudentsResultMap">
+        SELECT 
+            <include refid="Clazz_With_Students_Columns"/>
+        FROM tb_clazz c
+        LEFT JOIN tb_student s ON c.id = s.clazz_id
+        WHERE c.code = #{code}
+        ORDER BY s.id
+    </select>
+
+    <!-- 根据班级名称查询班级信息（包含学生列表） -->
+    <select id="selectClazzWithStudentsByName" resultMap="ClazzWithStudentsResultMap">
+        SELECT 
+            <include refid="Clazz_With_Students_Columns"/>
+        FROM tb_clazz c
+        LEFT JOIN tb_student s ON c.id = s.clazz_id
+        WHERE c.name = #{name}
+        ORDER BY s.id
+    </select>
+
+    <!-- 插入班级信息 -->
+    <insert id="insertClazz" parameterType="Clazz" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_clazz (code, name) 
+        VALUES (#{code}, #{name})
+    </insert>
+
+    <!-- 更新班级信息 -->
+    <update id="updateClazz" parameterType="Clazz">
+        UPDATE tb_clazz 
+        SET code = #{code}, name = #{name}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除班级信息 -->
+    <delete id="deleteClazz" parameterType="int">
+        DELETE FROM tb_clazz WHERE id = #{id}
+    </delete>
+
+</mapper>

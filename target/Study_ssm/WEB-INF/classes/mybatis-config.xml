@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 全局配置 -->
+    <settings>
+        <!-- 开启驼峰命名转换 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!-- 开启延迟加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 关闭积极的延迟加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 开启缓存 -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 日志实现 -->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+    </settings>
+
+    <!-- 类型别名 -->
+    <typeAliases>
+        <typeAlias type="com.study.ssm.entity.User" alias="User"/>
+        <typeAlias type="com.study.ssm.entity.Employee" alias="Employee"/>
+        <typeAlias type="com.study.ssm.entity.Student" alias="Student"/>
+        <typeAlias type="com.study.ssm.entity.Clazz" alias="Clazz"/>
+        <typeAlias type="com.study.ssm.entity.Order" alias="Order"/>
+        <typeAlias type="com.study.ssm.entity.Article" alias="Article"/>
+        <typeAlias type="com.study.ssm.entity.Item" alias="Item"/>
+        <!-- 注解版本的实体类 -->
+        <typeAlias type="com.study.ssm.entity.UserAnnotation" alias="UserAnnotation"/>
+        <typeAlias type="com.study.ssm.entity.OrderAnnotation" alias="OrderAnnotation"/>
+    </typeAliases>
+
+    <!-- 数据库环境配置（用于独立测试） -->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/database_setup?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!-- 映射文件配置（用于独立测试） -->
+    <mappers>
+        <!-- XML映射文件 -->
+        <mapper resource="mapper/UserMapper.xml"/>
+        <mapper resource="mapper/EmployeeMapper.xml"/>
+        <mapper resource="mapper/StudentMapper.xml"/>
+        <mapper resource="mapper/ClazzMapper.xml"/>
+        <mapper resource="mapper/OrderMapper.xml"/>
+        <mapper resource="mapper/ArticleMapper.xml"/>
+        <mapper resource="mapper/ItemMapper.xml"/>
+        <!-- 注解方式Mapper接口 -->
+        <mapper class="com.study.ssm.mapper.UserAnnotationMapper"/>
+        <mapper class="com.study.ssm.mapper.OrderAnnotationMapper"/>
+    </mappers>
+
+</configuration>

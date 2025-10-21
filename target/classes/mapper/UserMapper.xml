@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.ssm.mapper.UserMapper">
+
+    <!-- 公共列片段：用户表所有列 -->
+    <sql id="User_Columns">
+        id, name, username, loginname, password, sex, age, phone, address
+    </sql>
+
+    <!-- (1) 添加操作 -->
+    <insert id="insertUser" parameterType="User">
+        INSERT INTO tb_user (name, sex, age) 
+        VALUES (#{name}, #{sex}, #{age})
+    </insert>
+
+    <!-- (2) 更新操作 -->
+    <update id="updateUser" parameterType="User">
+        UPDATE tb_user 
+        SET name = #{name}, sex = #{sex}, age = #{age} 
+        WHERE id = #{id}
+    </update>
+
+    <!-- (3) 删除操作 -->
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM tb_user WHERE id = #{id}
+    </delete>
+
+    <!-- (4) 查询操作 -->
+    <!-- 根据ID查询用户 -->
+    <select id="selectUserById" parameterType="int" resultType="User">
+        SELECT 
+            <include refid="User_Columns"/>
+        FROM tb_user 
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有用户 -->
+    <select id="selectAllUsers" resultType="User">
+        SELECT 
+            <include refid="User_Columns"/>
+        FROM tb_user
+    </select>
+
+    <!-- 根据姓名查询用户 -->
+    <select id="selectUserByName" parameterType="string" resultType="User">
+        SELECT 
+            <include refid="User_Columns"/>
+        FROM tb_user 
+        WHERE name = #{name}
+    </select>
+
+</mapper>
