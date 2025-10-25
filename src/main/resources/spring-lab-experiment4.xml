@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- ========================================
+         实验4：基于注解的装配
+         演示：组件扫描、自动装配、属性注入
+         ======================================== -->
+    
+    <!-- 启用组件扫描，扫描com.study.ssm.lab.experiment4包及其子包 -->
+    <context:component-scan base-package="com.study.ssm.lab.experiment4"/>
+    
+    <!-- 加载属性配置文件（如果文件不存在则忽略） -->
+    <context:property-placeholder location="classpath:lab-experiment4.properties" 
+                                  ignore-resource-not-found="true"/>
+
+</beans>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ========================================
+         实验1：Spring的简单应用
+         演示：基本的Bean配置和依赖注入
+         ======================================== -->
+    
+    <!-- 配置数据访问层Bean -->
+    <bean id="labUserDao" class="com.study.ssm.lab.experiment1.dao.impl.UserDaoImpl">
+    </bean>
+    
+    <!-- 配置业务层Bean，并注入数据层依赖 -->
+    <bean id="labUserService" class="com.study.ssm.lab.experiment1.service.impl.UserServiceImpl">
+        <!-- 通过property标签注入userDao -->
+        <property name="userDao" ref="labUserDao"/>
+    </bean>
+
+</beans>

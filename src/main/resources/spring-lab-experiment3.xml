@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ========================================
+         实验3：构造注入（Constructor Injection）
+         演示：通过<constructor-arg>标签注入构造函数参数
+         ======================================== -->
+    
+    <!-- 配置数据访问层Bean，使用构造函数注入基本类型参数 -->
+    <bean id="labOrderDao" class="com.study.ssm.lab.experiment3.dao.impl.OrderDaoImpl">
+        <!-- 方式1：使用index属性指定参数位置（从0开始） -->
+        <constructor-arg index="0" value="jdbc:mysql://localhost/order_db"/>
+        <constructor-arg index="1" value="admin"/>
+        <constructor-arg index="2" value="3306"/>
+    </bean>
+    
+    <!-- 配置业务层Bean，使用构造函数注入对象和多种类型参数 -->
+    <bean id="labOrderService" class="com.study.ssm.lab.experiment3.service.impl.OrderServiceImpl">
+        <!-- 方式2：使用type属性指定参数类型 -->
+        <!-- 注入OrderDao对象 -->
+        <constructor-arg type="com.study.ssm.lab.experiment3.dao.OrderDao" ref="labOrderDao"/>
+        
+        <!-- 注入String类型 - 公司名称 -->
+        <constructor-arg type="java.lang.String" value="ABC电商有限公司"/>
+        
+        <!-- 注入double类型 - 税率 -->
+        <constructor-arg type="double" value="0.13"/>
+        
+        <!-- 注入boolean类型 - 是否启用审核 -->
+        <constructor-arg type="boolean" value="true"/>
+    </bean>
+
+</beans>
