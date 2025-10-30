@@ -1,7 +1,18 @@
--- 创建数据库
-# CREATE DATABASE databa;
+-- ========================================================================
+-- SSM整合项目 - 数据库初始化脚本
+-- 包含：database_setup 数据库 + hrm 人力资源管理系统数据库
+-- 创建时间：2025-10-30
+-- ========================================================================
 
--- 使用数据库
+-- ========================================================================
+-- 第一部分：database_setup 数据库
+-- 包含：用户、员工、班级、学生、订单管理等表
+-- ========================================================================
+
+-- 创建database_setup数据库
+CREATE DATABASE IF NOT EXISTS database_setup DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- 使用database_setup数据库
 USE database_setup;
 
 -- 创建tb_user表
@@ -140,7 +151,7 @@ INSERT INTO tb_item VALUES
 (2, 4, 2),
 (2, 1, 1);
 
-
+-- 创建学生注册表
 CREATE TABLE IF NOT EXISTS tb_student_register (
   id INT PRIMARY KEY AUTO_INCREMENT,
   student_id VARCHAR(32) NOT NULL,
@@ -151,3 +162,69 @@ CREATE TABLE IF NOT EXISTS tb_student_register (
   birth_date DATE NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- ========================================================================
+-- 第二部分：hrm 人力资源管理系统数据库
+-- SSM框架整合实验
+-- ========================================================================
+
+-- 创建hrm数据库
+# CREATE DATABASE IF NOT EXISTS hrm DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE database_setup;
+
+-- 删除已存在的表
+DROP TABLE IF EXISTS tb_user;
+
+-- 创建用户表
+CREATE TABLE tb_user (
+    id INT PRIMARY KEY AUTO_INCREMENT COMMENT '用户ID',
+    name VARCHAR(20) NOT NULL COMMENT '姓名',
+    age INT(3) NOT NULL COMMENT '年龄',
+    sex INT(1) NOT NULL COMMENT '性别：1-男，2-女',
+    depart VARCHAR(50) NOT NULL COMMENT '部门',
+    remark VARCHAR(1000) COMMENT '备注'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户信息表';
+
+-- 插入初始数据
+INSERT INTO tb_user(name, age, sex, depart, remark) VALUES 
+('张三', 26, 1, '人事部', '人事部经理'),
+('里斯', 26, 2, '财务部', '财务部经理');
+
+-- 查询验证
+SELECT * FROM tb_user;
+
+-- 显示表结构
+DESC tb_user;
+
+-- 显示数据统计
+SELECT 
+    '用户总数' AS 统计项,
+    COUNT(*) AS 数量
+FROM tb_user
+UNION ALL
+SELECT 
+    '男性用户',
+    COUNT(*) 
+FROM tb_user WHERE sex = 1
+UNION ALL
+SELECT 
+    '女性用户',
+    COUNT(*) 
+FROM tb_user WHERE sex = 2;
+
+-- 按部门统计
+SELECT 
+    depart AS 部门,
+    COUNT(*) AS 人数
+FROM tb_user
+GROUP BY depart
+ORDER BY 人数 DESC;
+
+-- ========================================================================
+-- 数据库初始化完成
+-- 包含两个数据库：
+--   1. database_setup - 通用测试数据库（用户、员工、学生、订单等）
+--   2. hrm - 人力资源管理系统数据库
+-- ========================================================================

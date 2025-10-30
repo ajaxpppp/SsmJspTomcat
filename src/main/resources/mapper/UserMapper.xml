@@ -3,21 +3,25 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.ssm.mapper.UserMapper">
 
-    <!-- 公共列片段：用户表所有列 -->
+    <!-- 公共列片段：HRM用户表所有列 -->
     <sql id="User_Columns">
-        id, name, username, loginname, password, sex, age, phone, address
+        id, name, age, sex, depart, remark
     </sql>
 
-    <!-- (1) 添加操作 -->
-    <insert id="insertUser" parameterType="User">
-        INSERT INTO tb_user (name, sex, age) 
-        VALUES (#{name}, #{sex}, #{age})
+    <!-- (1) 添加操作 - HRM用户 -->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_user (name, age, sex, depart, remark) 
+        VALUES (#{name}, #{age}, #{sex}, #{depart}, #{remark})
     </insert>
 
-    <!-- (2) 更新操作 -->
+    <!-- (2) 更新操作 - HRM用户 -->
     <update id="updateUser" parameterType="User">
         UPDATE tb_user 
-        SET name = #{name}, sex = #{sex}, age = #{age} 
+        SET name = #{name}, 
+            age = #{age}, 
+            sex = #{sex},
+            depart = #{depart},
+            remark = #{remark}
         WHERE id = #{id}
     </update>
 
@@ -40,6 +44,7 @@
         SELECT 
             <include refid="User_Columns"/>
         FROM tb_user
+        ORDER BY id DESC
     </select>
 
     <!-- 根据姓名查询用户 -->
@@ -48,6 +53,15 @@
             <include refid="User_Columns"/>
         FROM tb_user 
         WHERE name = #{name}
+    </select>
+    
+    <!-- 根据部门查询用户列表 -->
+    <select id="selectUsersByDepart" parameterType="string" resultType="User">
+        SELECT 
+            <include refid="User_Columns"/>
+        FROM tb_user 
+        WHERE depart = #{depart}
+        ORDER BY id DESC
     </select>
 
 </mapper>

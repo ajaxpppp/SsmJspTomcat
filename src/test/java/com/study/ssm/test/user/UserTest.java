@@ -22,8 +22,8 @@ public class UserTest {
             // 获取SqlSession
             sqlSession = MyBatisUtil.getSqlSession();
             
-            // 创建用户对象
-            User user = new User("测试用户", "男", 25);
+            // 创建用户对象（姓名，年龄，性别1-男，部门，备注）
+            User user = new User("测试用户", 25, 1, "测试部", "测试用户账号");
             
             // 执行插入操作
             int result = sqlSession.insert("UserMapper.insertUser", user);
@@ -55,7 +55,7 @@ public class UserTest {
             sqlSession = MyBatisUtil.getSqlSession();
             
             // 创建用户对象（需要包含ID）
-            User user = new User(1, "张三修改", "女", 30);
+            User user = new User(1, "张三修改", 30, 2, "人事部", "人事部经理-已修改");
             
             // 执行更新操作
             int result = sqlSession.update("UserMapper.updateUser", user);

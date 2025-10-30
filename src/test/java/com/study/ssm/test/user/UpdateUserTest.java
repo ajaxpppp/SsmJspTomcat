@@ -17,8 +17,8 @@ public class UpdateUserTest {
             // 获取SqlSession
             sqlSession = MyBatisUtil.getSqlSession();
             
-            // 创建用户对象（需要包含ID）
-            User user = new User(8, "沈俊123", "女", 35);
+            // 创建用户对象（需要包含ID）- ID, 姓名, 年龄, 性别(2-女), 部门, 备注
+            User user = new User(8, "沈俊123", 35, 2, "技术部", "高级工程师");
             
             // 执行更新操作
             int result = sqlSession.update("UserMapper.updateUser", user);
