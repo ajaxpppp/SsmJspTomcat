@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.ssm.mapper.KclxbMapper">
+
+    <!-- 课程类型结果映射 -->
+    <resultMap id="KclxbResultMap" type="Kclxb">
+        <id property="id" column="id"/>
+        <result property="lxm" column="lxm"/>
+        <result property="bz" column="bz"/>
+    </resultMap>
+
+    <!-- 根据ID查询课程类型信息 -->
+    <select id="selectKclxbById" resultMap="KclxbResultMap">
+        SELECT id, lxm, bz
+        FROM kclxb
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有课程类型信息 -->
+    <select id="selectAllKclxb" resultMap="KclxbResultMap">
+        SELECT id, lxm, bz
+        FROM kclxb
+        ORDER BY id
+    </select>
+
+    <!-- 插入课程类型信息，ID自动生成 -->
+    <insert id="insertKclxb" parameterType="Kclxb" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO kclxb (lxm, bz) 
+        VALUES (#{lxm}, #{bz})
+    </insert>
+
+    <!-- 更新课程类型信息 -->
+    <update id="updateKclxb" parameterType="Kclxb">
+        UPDATE kclxb 
+        SET lxm = #{lxm}, bz = #{bz}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除课程类型信息 -->
+    <delete id="deleteKclxb">
+        DELETE FROM kclxb WHERE id = #{id}
+    </delete>
+
+</mapper>

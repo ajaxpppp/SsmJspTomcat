@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.ssm.mapper.CatalogMapper">
+
+    <!-- 图书分类结果映射 -->
+    <resultMap id="CatalogResultMap" type="Catalog">
+        <id property="catalogid" column="catalogid"/>
+        <result property="catalogname" column="catalogname"/>
+    </resultMap>
+
+    <!-- 根据ID查询图书分类信息 -->
+    <select id="selectCatalogById" resultMap="CatalogResultMap">
+        SELECT catalogid, catalogname
+        FROM catalog
+        WHERE catalogid = #{catalogid}
+    </select>
+
+    <!-- 查询所有图书分类信息 -->
+    <select id="selectAllCatalog" resultMap="CatalogResultMap">
+        SELECT catalogid, catalogname
+        FROM catalog
+        ORDER BY catalogid
+    </select>
+
+    <!-- 插入图书分类信息，ID自动生成 -->
+    <insert id="insertCatalog" parameterType="Catalog" useGeneratedKeys="true" keyProperty="catalogid">
+        INSERT INTO catalog (catalogname) 
+        VALUES (#{catalogname})
+    </insert>
+
+    <!-- 更新图书分类信息 -->
+    <update id="updateCatalog" parameterType="Catalog">
+        UPDATE catalog 
+        SET catalogname = #{catalogname}
+        WHERE catalogid = #{catalogid}
+    </update>
+
+    <!-- 删除图书分类信息 -->
+    <delete id="deleteCatalog">
+        DELETE FROM catalog WHERE catalogid = #{catalogid}
+    </delete>
+
+</mapper>

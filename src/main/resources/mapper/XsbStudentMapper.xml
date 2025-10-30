@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.ssm.mapper.XsbStudentMapper">
+
+    <!-- 学生结果映射 -->
+    <resultMap id="XsbStudentResultMap" type="XsbStudent">
+        <id property="sno" column="sno"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="tel" column="tel"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+    <!-- 根据学号查询学生信息 -->
+    <select id="selectStudentBySno" resultMap="XsbStudentResultMap">
+        SELECT sno, name, age, tel, address
+        FROM xsb
+        WHERE sno = #{sno}
+    </select>
+
+    <!-- 查询所有学生信息 -->
+    <select id="selectAllStudents" resultMap="XsbStudentResultMap">
+        SELECT sno, name, age, tel, address
+        FROM xsb
+        ORDER BY sno
+    </select>
+
+    <!-- 插入学生信息 -->
+    <insert id="insertStudent" parameterType="XsbStudent">
+        INSERT INTO xsb (sno, name, age, tel, address) 
+        VALUES (#{sno}, #{name}, #{age}, #{tel}, #{address})
+    </insert>
+
+    <!-- 更新学生信息 -->
+    <update id="updateStudent" parameterType="XsbStudent">
+        UPDATE xsb 
+        SET name = #{name}, age = #{age}, tel = #{tel}, address = #{address}
+        WHERE sno = #{sno}
+    </update>
+
+    <!-- 删除学生信息 -->
+    <delete id="deleteStudent">
+        DELETE FROM xsb WHERE sno = #{sno}
+    </delete>
+
+</mapper>
