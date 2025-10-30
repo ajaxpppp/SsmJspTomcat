@@ -20,8 +20,8 @@ public class AddUserTest {
             sqlSession = MyBatisUtil.getSqlSession();
             Random random = new Random();
             String name = String.valueOf(random.nextInt(100));
-            // 创建用户对象
-            User user = new User("新用户"+name, "女", 26);
+            // 创建用户对象 - 姓名, 年龄, 性别(2-女), 部门, 备注
+            User user = new User("新用户"+name, 26, 2, "市场部", "新加入员工");
             
             // 执行插入操作
             int result = sqlSession.insert("UserMapper.insertUser", user);

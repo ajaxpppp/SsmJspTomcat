@@ -26,6 +26,9 @@
         <typeAlias type="com.study.ssm.entity.Order" alias="Order"/>
         <typeAlias type="com.study.ssm.entity.Article" alias="Article"/>
         <typeAlias type="com.study.ssm.entity.Item" alias="Item"/>
+        <typeAlias type="com.study.ssm.entity.XsbStudent" alias="XsbStudent"/>
+        <typeAlias type="com.study.ssm.entity.Kclxb" alias="Kclxb"/>
+        <typeAlias type="com.study.ssm.entity.Catalog" alias="Catalog"/>
         <!-- 注解版本的实体类 -->
         <typeAlias type="com.study.ssm.entity.UserAnnotation" alias="UserAnnotation"/>
         <typeAlias type="com.study.ssm.entity.OrderAnnotation" alias="OrderAnnotation"/>
@@ -54,6 +57,9 @@
         <mapper resource="mapper/OrderMapper.xml"/>
         <mapper resource="mapper/ArticleMapper.xml"/>
         <mapper resource="mapper/ItemMapper.xml"/>
+        <mapper resource="mapper/XsbStudentMapper.xml"/>
+        <mapper resource="mapper/KclxbMapper.xml"/>
+        <mapper resource="mapper/CatalogMapper.xml"/>
         <!-- 注解方式Mapper接口 -->
         <mapper class="com.study.ssm.mapper.UserAnnotationMapper"/>
         <mapper class="com.study.ssm.mapper.OrderAnnotationMapper"/>

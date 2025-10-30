@@ -88,6 +88,7 @@
 
     <!-- 功能导航（页面入口） -->
     <div class="nav-grid">
+        <a class="nav-link" href="${pageContext.request.contextPath}/hrm/userList">🏢 HRM人力资源管理 (/hrm/userList)</a>
         <a class="nav-link" href="${pageContext.request.contextPath}/zhuce">📝 学生注册页面 (/zhuce)</a>
         <a class="nav-link" href="${pageContext.request.contextPath}/listuser">👥 已注册用户列表 (/listuser)</a>
         <a class="nav-link" href="${pageContext.request.contextPath}/page/index">📤 文件上传首页 (/page/index)</a>
